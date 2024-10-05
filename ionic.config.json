@@ -1,0 +1,7 @@
+{
+  "name": "myCripto",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
