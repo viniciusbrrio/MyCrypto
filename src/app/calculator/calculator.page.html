@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Calculadora de Criptomoedas
+    </ion-title>
+    <!-- Botão de Voltar -->
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/tabs/intro"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="--background: linear-gradient(rgba(197, 184, 245, 0.3), rgba(202, 216, 245, 0.3))">
+  
+  <!-- Imagem da calculadora -->
+  <ion-img style="height: 250px; width: 250px;" src="/assets/imagem/calculator.png" alt="calculadora"></ion-img>
+
+  <ion-item>
+    <ion-label position="floating">Valor</ion-label>
+    <ion-input type="tel" [(ngModel)]="amount"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>De (Moeda Fiat)</ion-label>
+    <ion-select [(ngModel)]="fromCurrency">
+      <ion-select-option *ngFor="let currency of fiatCurrencies" [value]="currency.code">
+        {{currency.name}} ({{currency.code}})
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Para (Criptomoeda)</ion-label>
+    <ion-select [(ngModel)]="toCrypto">
+      <ion-select-option *ngFor="let crypto of cryptoCurrencies" [value]="crypto.code">
+        {{crypto.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" (click)="calculate()" [disabled]="isLoading">
+    <ion-spinner *ngIf="isLoading"></ion-spinner>
+    Calcular
+  </ion-button>
+
+  <ion-item *ngIf="result">
+    <ion-label>
+      Resultado: {{ result | number:'1.0-8' }} {{ toCrypto.toUpperCase() }}
+    </ion-label>
+  </ion-item>
+
+</ion-content>

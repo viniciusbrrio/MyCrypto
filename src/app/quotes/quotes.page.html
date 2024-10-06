@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+   
+    <ion-title>
+      Cotações
+    </ion-title>
+
+       <!-- Botão de Voltar -->
+       <ion-buttons slot="end">
+        <ion-back-button defaultHref="tabs/calculator"></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="--background: linear-gradient(rgba(197, 184, 245, 0.3), rgba(202, 216, 245, 0.3))">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="refreshQuotes($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list *ngIf="!error">
+    <ion-item *ngFor="let quote of quotes">
+      <ion-avatar slot="start">
+        <img [src]="quote.image" alt="{{ quote.name }}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{quote.name}} ({{quote.symbol.toUpperCase()}})</h2>
+        <p>Preço: ${{quote.current_price | number:'1.2-2'}}</p>
+        <p [ngClass]="{'positive': quote.price_change_percentage_24h > 0, 'negative': quote.price_change_percentage_24h < 0}">
+          Variação 24h: {{quote.price_change_percentage_24h | number:'1.2-2'}}%
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-text color="danger" *ngIf="error">
+    <p>{{ error }}</p>
+  </ion-text>
+
+  <ion-button expand="block" (click)="getQuotes()" *ngIf="error">
+    Tentar novamente
+  </ion-button>
+</ion-content>
